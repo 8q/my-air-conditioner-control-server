@@ -57,7 +57,7 @@ function sendSignalToIRController(signal: Signal): void {
 const app = express()
 app.use(express.json())
 
-app.get("/control", (req, res) => {
+app.post("/control", (req, res) => {
     const sw = guessSwitch(req.body.switch)
 
     if (sw === "nothing") {

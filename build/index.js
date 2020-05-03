@@ -53,7 +53,7 @@ function sendSignalToIRController(signal) {
 }
 var app = express_1.default();
 app.use(express_1.default.json());
-app.get("/control", function (req, res) {
+app.post("/control", function (req, res) {
     var sw = guessSwitch(req.body.switch);
     if (sw === "nothing") {
         res.status(400).json({ error: "invalid or missing parameters" });
