@@ -78,4 +78,4 @@ app.get("/control", function (req, res) {
     }
     res.status(400).json({ error: "invalid or missing parameters" });
 });
-app.listen(3000);
+app.listen(3000, function () { return console.log('my-air-conditioner-control-server'); });

@@ -13,7 +13,7 @@ function guessMode(rawString: string | null): Mode {
     const lowerString = rawString.toLowerCase()
     if (lowerString === "cool" || lowerString === "c") {
         return "cool"
-    } else if(lowerString === "heat" || lowerString === "h") {
+    } else if (lowerString === "heat" || lowerString === "h") {
         return "heat"
     }
 
@@ -26,7 +26,7 @@ function guessSwitch(rawString: string | null): Switch {
     const lowerString = rawString.toLowerCase()
     if (lowerString === "on") {
         return "on"
-    } else if(lowerString === "off") {
+    } else if (lowerString === "off") {
         return "off"
     }
 
@@ -34,19 +34,19 @@ function guessSwitch(rawString: string | null): Switch {
 }
 
 function getSignal(sw: Switch, mode: Mode = "nothing"): Signal | null {
-    if(sw === "nothing")
-        return null;
-    else if(sw === "off")
+    if (sw === "nothing")
+        return null
+    else if (sw === "off")
         return fs.readFileSync(path.resolve(__dirname, "../signals/Off.txt")).toString()
-    else if(sw === "on") {
+    else if (sw === "on") {
         if (mode === "nothing")
-            return null;
+            return null
         else if (mode === "cool")
             return fs.readFileSync(path.resolve(__dirname, "../signals/28C_Auto_On.txt")).toString()
         else if (mode === "heat")
             return fs.readFileSync(path.resolve(__dirname, "../signals/22H_Auto_On.txt")).toString()
     }
-    return null;
+    return null
 }
 
 function sendSignalToIRController(signal: Signal): void {
@@ -71,7 +71,7 @@ app.get("/control", (req, res) => {
         res.status(200).json({ msg: "switch off" })
         return
 
-    } else if(sw === "on") {
+    } else if (sw === "on") {
         const mode = guessMode(req.body.mode)
 
         if (mode === "nothing") {
@@ -79,7 +79,7 @@ app.get("/control", (req, res) => {
             res.status(400).json({ error: "invalid or missing parameters" })
             return
 
-        } else if(mode === "cool" || mode === "heat") {
+        } else if (mode === "cool" || mode === "heat") {
 
             sendSignalToIRController(getSignal(sw, mode)!)
             res.status(200).json({ msg: `switch on, ${mode}` })
@@ -91,4 +91,4 @@ app.get("/control", (req, res) => {
     res.status(400).json({ error: "invalid or missing parameters" })
 })
 
-app.listen(3000)
+app.listen(3000, () => console.log('my-air-conditioner-control-server'))
