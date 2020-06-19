@@ -2,7 +2,7 @@
 
 cd "$(dirname $0)"
 
-SERVER_URL=http://192.168.0.102:3000/control
+SERVER_URL=http://localhost:3000/control
 
 echo "28C Auto On"
 curl -X POST -H "Content-Type:application/json" -d '{"switch":"on", "mode": "cool"}' "$SERVER_URL"
